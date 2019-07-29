@@ -1,0 +1,13 @@
+{
+    "global":   {
+        "volumeDir": "/opt/hpe-storage-mounts/simplivity"
+    },
+    "defaults": {
+                 "sizeInGiB":"10",
+                 "limitIOPS":"-1",
+                 "limitMBPS":"-1",
+                 "perfPolicy": "",
+                 "dedupe": "false"
+                },
+    "overrides":{}
+}

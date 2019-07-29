@@ -1,0 +1,27 @@
+{
+    "global": {
+                "nameSuffix": ".docker",
+                "snapPrefix": "BaseFor",
+                "initiators": "",
+                "automatedConnection": true,
+                "existingCloudSubnet": "",
+                "region": "",
+                "privateCloud": "",
+                "cloudComputeProvider": "Amazon AWS",
+                "cloudAccountName": ""
+    },
+    "defaults": {
+                "sizeInGiB": 1,
+                "limitIOPS": 500,
+                "fsOwner": "0:0",
+                "fsMode": "600",
+                "perfPolicy": "Other",
+                "protectionTemplate": "twicedaily:4",
+                "encryption": true,
+                "volumeType": "GPF",
+                "destroyOnRm": true,
+                "mountConflictDelay": 120
+    },
+    "overrides": {
+    }
+}

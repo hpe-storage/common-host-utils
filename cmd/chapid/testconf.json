@@ -1,0 +1,21 @@
+{
+"id": "46aa1dcd-bd63-4f01-b653-3d44f514634c",   
+"serialnumber": "24b9b595843c3ba2e6c9ce900e5ee8bf5",
+"pathname": "dm-23",
+"major": "252",
+"minor": "23",
+"altfullpathname":"/dev/mapper/mpathapr",
+"mpathdevicename":"mpathapr",
+"size":10737418240,
+"partitiontype": "mpath",
+"mountpoint": "/opt/nimble/data",
+"mountid": 15182243723929345167,
+"volumename": "testchapi",
+"discoveryip": "127.16.32.32",
+"poolname": "default",
+"iqn": "iqn.2007-11.com.nimblestorage:test-chapi.docker-v66a2e10dd1037576.000008b2.b7a1947b",
+"iscsiinitiator": "iqn.1993-08.org.debian:01:aafd3333170",
+"hostname": "test-docker-host",
+"netinf": "ens160",
+"addressv4": "127.0.0.1"
+}

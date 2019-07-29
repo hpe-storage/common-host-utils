@@ -1,0 +1,243 @@
+{
+  "Description": "Docker Volume plugin for HPE Nimble Storage/HPE Cloud Volumes and Simplivity",
+  "Documentation": "https://store.docker.com/plugins/nimble",
+  "Entrypoint": [
+    "/opt/hpe-storage/dockervolumed"
+  ],
+  "Env": [
+    {
+      "name": "PROVIDER_IP",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "PROVIDER_USERNAME",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "PROVIDER_PASSWORD",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "PROVIDER_PORT",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "PROVIDER_REMOVE",
+      "settable": [
+        "value"
+      ],
+      "value": ""
+    },
+    {
+      "name": "PLUGIN_TYPE",
+      "settable": [
+        "value"
+      ],
+      "value": "nimble"
+    },
+    {
+      "name": "MANAGED_PLUGIN",
+      "settable": [
+        "value"
+      ],
+      "value": "true"
+    },
+    {
+      "name": "LOG_LEVEL",
+      "settable": [
+        "value"
+      ],
+      "value": "debug"
+    },
+    {
+      "name": "SCOPE",
+      "settable": [
+        "value"
+      ],
+      "value": "global"
+    },
+    {
+      "name": "PROTOCOL",
+      "settable": [
+        "value"
+      ],
+      "value": "iscsi"
+    },
+    {
+      "name": "INSECURE",
+      "settable": [
+        "value"
+      ],
+      "value": "false"
+    }
+  ],
+  "Interface": {
+    "Socket": "hpe-plugin.sock",
+    "Types": [
+      "docker.volumedriver/1.0"
+    ]
+  },
+  "Linux": {
+    "AllowAllDevices": true,
+    "Capabilities": [
+      "CAP_SYS_ADMIN",
+      "CAP_SYS_MODULE",
+      "CAP_MKNOD"
+    ],
+    "Devices": null
+  },
+  "Mounts": [
+    {
+      "Source": "/dev",
+      "Destination": "/dev",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ]
+    },
+    {
+      "Source": "/run/lock",
+      "Destination": "/run/lock",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ]
+    },
+    {
+      "Source": "/sys",
+      "Destination": "/sys",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ]
+    },
+    {
+      "Source": "/etc",
+      "Destination": "/etc",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ]
+    },
+    {
+      "Description": "The location of the Docker socket.",
+      "Name": "docker_socket",
+      "Source": "/var/run/docker.sock",
+      "Destination": "/var/run/docker.sock",
+      "Type": "bind",
+      "Options": [
+        "bind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of /proc/scsi/scsi.",
+      "Name": "proc_local_scsi",
+      "Source": "/proc/scsi/scsi",
+      "Destination": "/proc_local/scsi/scsi",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of the iscsiadm command.",
+      "Name": "iscsiadm",
+      "Source": "/sbin/iscsiadm",
+      "Destination": "/sbin/ia",
+      "Type": "bind",
+      "Options": [
+        "bind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of the proc/scsi command.",
+      "Name": "proc_scsi",
+      "Source": "/proc/scsi/scsi",
+      "Destination": "/proc_local/scsi/scsi",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of the loadable kernel modules (specifically iscsi_tcp).",
+      "Name": "lib_modules",
+      "Source": "/lib/modules",
+      "Destination": "/lib/modules",
+      "Type": "bind",
+      "Options": [
+        "bind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of the glibc libs.",
+      "Name": "glibc_libs",
+      "Source": "/lib64",
+      "Destination": "/lib/x86_64-linux-gnu",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Description": "The location of the lib64.",
+      "Name": "lib64",
+      "Source": "/lib64",
+      "Destination": "/lib64",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    },
+    {
+      "Source": "/usr",
+      "Destination": "/usr_local",
+      "Type": "bind",
+      "Options": [
+        "rbind"
+      ],
+      "Settable": [
+        "source"
+      ]
+    }
+  ],
+  "Network": {
+    "Type": "host"
+  },
+  "PropagatedMount": "/var/lib/kubelet/plugins/hpe.com/mounts/",
+  "User": {},
+  "WorkDir": ""
+}

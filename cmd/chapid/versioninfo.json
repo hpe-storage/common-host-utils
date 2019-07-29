@@ -1,0 +1,43 @@
+{
+    "FixedFileInfo": {
+        "FileVersion": {
+            "Major": 3,
+            "Minor": 0,
+            "Patch": 0,
+            "Build": 0
+        },
+        "ProductVersion": {
+            "Major": 3,
+            "Minor": 0,
+            "Patch": 0,
+            "Build": 0
+        },
+        "FileFlagsMask": "3f",
+        "FileFlags": "00",
+        "FileOS": "040004",
+        "FileType": "01",
+        "FileSubType": "00"
+    },
+    "StringFileInfo": {
+        "Comments": "",
+        "CompanyName": "Hewlett Packard Enterprise",
+        "FileDescription": "HPE Volume Management Service",
+        "FileVersion": "3.0.0.0",
+        "InternalName": "",
+        "LegalCopyright": "(c) Copyright 2019 Hewlett Packard Enterprise Development LP",
+        "LegalTrademarks": "",
+        "OriginalFilename": "",
+        "PrivateBuild": "",
+        "ProductName": "HPE Volume Management Service",
+        "ProductVersion": "3.0.0.0",
+        "SpecialBuild": ""
+    },
+    "VarFileInfo": {
+        "Translation": {
+            "LangID": 1033,
+            "CharsetID": 1200
+        }
+    },
+    "IconPath": "",
+    "ManifestPath": ""
+}

@@ -1,0 +1,11 @@
+{
+    "global":   {},
+    "defaults": {
+                 "sizeInGiB":"10",
+                 "limitIOPS":"-1",
+                 "limitMBPS":"-1",
+                 "perfPolicy": "DockerDefault",
+                 "mountConflictDelay": 120
+                },
+    "overrides":{}
+}
