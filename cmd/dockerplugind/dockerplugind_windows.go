@@ -1,4 +1,4 @@
-// Copyright 2017 Nimble Storage, Inc.
+// Copyright 2019 Hewlett Packard Enterprise Development LP.
 
 // This is a windows service utility which would registered the
 // dockerplugind as service on Windows.
