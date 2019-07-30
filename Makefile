@@ -98,7 +98,7 @@ debug:
 	@echo "$(S0)"
 
 .PHONY : all
-all : clean lint docker_run postbuild
+all : clean lint docker_run
 
 .PHONY : all_local
 all_local : clean debug lint utils nimbletunepkg test
