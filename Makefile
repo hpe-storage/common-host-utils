@@ -142,7 +142,7 @@ build: ; $(info $(A1) mkdir build)
 .PHONY: lint
 lint: vendor; $(info $(A1) lint)
 	@echo "$(A2) lint $(PKG_PATH)"
-	export $(GOENV) $(BUILD_ENV) && export GOOS=darwin && gometalinter $(LINTER_FLAGS) $(PKG_PATH)... --exclude $(VEN_PATH)...
+	export $(GOENV) $(BUILD_ENV) && gometalinter $(LINTER_FLAGS) $(PKG_PATH)... --exclude $(VEN_PATH)...
 	@echo "$(S0)"
 
 .PHONY: clean
