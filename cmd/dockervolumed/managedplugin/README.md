@@ -1,11 +1,10 @@
 
 # Requirements
 
--   Docker Engine 17.09 or greater
--   If using Docker Enterprise Edition 2.x, the plugin is only supported in swarmmode
--   Recent Red Hat, Debian or Ubuntu-based Linux distribution
--   NimbleOS 5.0.8 or greater on a HPE Nimble Storage array
-
+- Docker Engine 17.09 or greater
+- If using Docker Enterprise Edition 2.x, the plugin is only supported in swarmmode
+- Recent Red Hat, Debian or Ubuntu-based Linux distribution
+- NimbleOS 5.0.8 or greater on a HPE Nimble Storage array
 
 **Note:** Docker does not support certified and managed Docker Volume plugins with Kubnernetes. If you want to use Kubernetes on Docker with HPE Nimble Storage, please use the [HPE Flexvolume Plugins](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) and follow the HPE Nimble Storage Integration Guide for Docker Enterprise Edition found on [HPE InfoSight](https://infosight.hpe.com) to deploy a fully supported solution.
 
@@ -15,10 +14,10 @@ HPE Nimble Storage provides a Docker certified plugin delivered through the Dock
 
 The managed plugin does NOT provide:
 
--   Support for Docker's release of Kubernetes in Docker Enterprise Edition 2.x
--   Locally scoped volumes
--   Support for older versions of NimbleOS (all versions below 5.x)
--   Support for Windows Containers
+- Support for Docker's release of Kubernetes in Docker Enterprise Edition 2.x
+- Locally scoped volumes
+- Support for older versions of NimbleOS (all versions below 5.x)
+- Support for Windows Containers
 
 The managed plugin does provide a simple way to manage the HPE Nimble Storage integration on your Docker hosts using Docker's interface to install and manage the plugin.
 
@@ -28,8 +27,7 @@ The managed plugin does provide a simple way to manage the HPE Nimble Storage in
 
 In order to create connections, attach devices and mount file systems, the plugin requires more privileges than a standard application container. These privileges are enumerated during installation. These permissions need to be granted for the plugin to operate correctly.
 
-```
-Plugin "nimble" is requesting the following privileges:
+```Plugin "nimble" is requesting the following privileges:
  - network: [host]
  - mount: [/dev]
  - mount: [/run/lock]
@@ -52,8 +50,7 @@ These procedures **requires** root privileges.
 
 Red Hat 7.5+, CentOS 7.5+, Oracle Enterprise Linux 7.5+ and Fedora 28+:
 
-```
-yum install -y iscsi-initiator-utils device-mapper-multipath
+```yum install -y iscsi-initiator-utils device-mapper-multipath
 docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin
 docker plugin enable nimble
@@ -64,8 +61,7 @@ systemctl start iscsid multipathd
 
 Ubuntu 16.04 LTS and Ubuntu 18.04 LTS (Ubuntu 19.10 also tested):
 
-```
-apt-get install -y open-iscsi multipath-tools xfsprogs
+```apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
 docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
@@ -77,8 +73,7 @@ systemctl restart open-iscsi multipath-tools
 
 Debian 9.x (stable):
 
-```
-apt-get install -y open-iscsi multipath-tools xfsprogs
+```apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
 docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
@@ -92,15 +87,14 @@ systemctl restart open-iscsi multipath-tools
 
 The `docker plugin set` command can only be used on the plugin if it is disabled. To disable the plugin, use the `docker plugin disable` command. For example:
 
-```
-$ docker plugin disable nimble
+```$ docker plugin disable nimble
 ```
 
 ### Security Consideration
 
 The HPE Nimble Storage Group credentials are visible to any user who can execute `docker plugin inspect nimble`. To limit credential visibility, the variables should be unset after certificates have been generated. The following set of steps can be used to accomplish this:
 
-1.  Add the credentials
+1.Add the credentials
     -   `$ docker plugin set nimble ip=192.168.171.74 username=admin password=admin`
 2.  Start the plugin
     -   `$ docker plugin enable nimble`
@@ -115,16 +109,16 @@ The HPE Nimble Storage Group credentials are visible to any user who can execute
 
 In the event of reassociating the plugin with a different HPE Nimble Storage group, certain procedures need to be followed:
 
-1.  Disable the plugin
-    -   `$ docker plugin disable nimble`
-2.  Set new paramters
-    -   `$ docker plugin set nimble PROVIDER_REMOVE=true`
-3.  Enable the plugin
-    -   `$ docker plugin enable nimble`
-4.  Disable the plugin
-    -   `$ docker plugin disable nimble`
-5.  The plugin is now ready for re-configuration
-    -   `$ docker plugin set nimble ip=< New IP address > username=admin password=admin remove=false`
+1.Disable the plugin
+-`$ docker plugin disable nimble`
+2.Set new paramters
+-`$ docker plugin set nimble PROVIDER_REMOVE=true`
+3.Enable the plugin
+-`$ docker plugin enable nimble`
+4.Disable the plugin
+-`$ docker plugin disable nimble`
+5.The plugin is now ready for re-configuration
+-`$ docker plugin set nimble ip=< New IP address > username=admin password=admin remove=false`
 
 **Note:** The `remove=false` parameter must be set if the plugin ever has been unassociated from a HPE Nimble Storage group.
 
@@ -142,8 +136,7 @@ These maps are essential to discuss with the HPE Nimble Storage administrator. A
 
 Below is an example `/etc/nimblestorage/volume-driver.json` outlining the above use cases:
 
-```
-{
+```{
   "global": {
     "nameSuffix": ".docker"
   },
@@ -159,8 +152,7 @@ Below is an example `/etc/nimblestorage/volume-driver.json` outlining the above 
 
 For an exhaustive list of options, either refer to the [HPE Nimble Storage Linux Toolkit](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) documentation or use the `help` option from the docker CLI:
 
-```
-$ docker volume create -d nimble -o help
+```$ docker volume create -d nimble -o help
 Nimble Storage Docker Volume Driver: Create Help
 Create or Clone a Nimble Storage backed Docker Volume or Import an existing Nimble Volume or Clone of a Snapshot into Docker.
 
@@ -174,8 +166,8 @@ Create options:
   -o fsMode=X             X is 1 to 4 octal digits that represent the file mode to be applied to the root directory of the filesystem
   -o description=X        X is the text to be added to volume description (optional)
   -o perfPolicy=X         X is the name of the performance policy (optional)
-                          Performance Policies: Exchange 2003 data store, Exchange 2007 data store, Exchange log, SQL Server, SharePoint, 
-                          Exchange 2010 data store, SQL Server Logs, SQL Server 2012, Oracle OLTP, Windows File Server, Other Workloads, Backup Repository, 
+                          Performance Policies: Exchange 2003 data store, Exchange 2007 data store, Exchange log, SQL Server, SharePoint,
+                          Exchange 2010 data store, SQL Server Logs, SQL Server 2012, Oracle OLTP, Windows File Server, Other Workloads, Backup Repository,
                           Veeam Backup Repository
   -o pool=X               X is the name of pool in which to place the volume (optional)
   -o folder=X             X is the name of folder in which to place the volume (optional)
@@ -215,21 +207,48 @@ Import Clone of Snapshot options:
   -o destroyOnDetach      indicates that the Nimble volume (including snapshots) backing this volume should be destroyed when this volume is unmounted or detached
 ```
 
+## Docker Swarm and SwarmKit Considerations
+
+If you are considering using any Docker clustering technologies for your Docker deployment, it is important to understand the fencing mechanism used to protect data. Attaching the same Docker Volume to multiple containers on the same host is fully supported. Mounting the same volume on multiple hosts is not supported.
+
+Docker does not provide a fencing mechanism for nodes that have become disconnected from the Docker Swarm. This results in the isolated nodes continuing to run their containers. When the containers are rescheduled on a surviving node, the Docker Engine will request that the Docker Volume(s) be mounted. In order to prevent data corruption, the Docker Volume Plugin will stop serving the Docker Volume to the original node before mounting it on the newly requested node.
+
+During a mount request, the Docker Volume Plugin inspects the ACR (Access Control Record) on the volume. If the ACR does not match the initiator requesting to mount the volume, the ACR is removed and the volume taken offline. The volume is now fenced off and other nodes are unable to access any data in the volume.
+
+The volume then receives a new ACR matching the requesting initiator, and it is mounted for the container requesting the volume. This is done because the volumes are formatted with XFS, which is not a clustered filesystem and can be corrupted if the same volume is mounted to multiple hosts.
+
+The side effect of a fenced node is that I/O hangs indefinitely, and the initiator is rejected during login. If the fenced node rejoins the Docker Swarm using Docker SwarmKit, the swarm tries to shut down the services that were rescheduled elsewhere to maintain the desired replica set for the service. This operation will also hang indefinitely waiting for I/O.
+
+We recommend running a dedicated Docker host that does not host any other critical applications besides the Docker Engine. Doing this supports a safe way to reboot a node after a grace period and have it start cleanly when a hung task is detected. Otherwise, the node can remain in the hung state indefinitely.
+
+The following kernel parameters control the system behavior when a hung task is detected:
+
+```# Reset after these many seconds after a panic
+kernel.panic = 5
+
+# I do consider hung tasks reason enough to panic
+kernel.hung_task_panic = 1
+
+# To not panic in vain, I'll wait these many seconds before I declare
+a hung task
+kernel.hung_task_timeout_secs = 150
+```
+
+Add these parameters to the `/etc/sysctl.d/99-hung_task_timeout.conf` file and reboot the system.
+
+**Note:** Docker SwarmKit declares a node as failed after five (5) seconds. Services are then rescheduled and up and running again in less than ten (10) seconds. The parameters noted above provide the system a way to manage other tasks that may appear to be hung and avoid a system panic.
+
 ## Use
 
-The [HPE Nimble Storage Linux Toolkit](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) documentation covers basic usage of the plugin. The following example demonstrates the `create` command with a set of options:
+The [Docker Volume Workflows](https://github.com/hpe-storage/common-host-utils/blob/master/cmd/dockervolumed/managedplugin/examples/README.md) documentation covers basic usage of the plugin. The following example demonstrates the `create` command with a set of options:
 
-```
-$ docker volume create -d nimble -o size=300 -o description="Example" -o perfPolicy="Oracle OLTP" -o encryption="true" -o dedupe="true" -o protectionTemplate="Retain-30Daily" --name example
-```
+`docker volume create -d nimble -o size=300 -o description="Example" -o perfPolicy="Oracle OLTP" -o encryption="true" -o dedupe="true" -o protectionTemplate="Retain-30Daily" --name example`
 
 ## Uninstall
 
 The plugin can be removed using the `docker plugin rm` command. This command will not remove the configuration directory (/etc/nimblestorage).
 
-```
-$ docker plugin rm nimble
-```
+`docker plugin rm nimble`
 
 ## Debugging
 
