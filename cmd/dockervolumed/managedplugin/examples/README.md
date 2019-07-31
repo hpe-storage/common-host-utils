@@ -125,7 +125,7 @@ Config file `volume-driver.json`, which is stored at `/etc/hpe-storage/volume-dr
 
 ### Before you begin
 
-Take the volume you want to import offline before importing it.For information about how to take a volume offline, refer to either the
+Take the volume you want to import offline before importing it. For information about how to take a volume offline, refer to either the
 `CLI Administration Guide` or the `GUI Administration Guide`. Use the create command with the importVol option to import an HPE Nimble Storage volume to Docker and name it.
 
 ### Procedure
@@ -143,7 +143,7 @@ Import the HPE Nimble Storage volume named importMe as a Docker volume named 
 
 ## 4. Import a Volume Snapshot to Docker
 
-Use the create command with the `importVolAsClone` option to import a HPE Nimble Storage volume snapshot as a Docker volume. Optionally,specify a particular snapshot on the HPE Nimble Storage volume using the snapshot option. The new Docker volume name is in the format of volume:snapshot
+Use the create command with the `importVolAsClone` option to import a HPE Nimble Storage volume snapshot as a Docker volume. Optionally, specify a particular snapshot on the HPE Nimble Storage volume using the snapshot option. The new Docker volume name is in the format of volume:snapshot
 
 ### Procedure
 
