@@ -105,7 +105,7 @@ The HPE Nimble Storage Group credentials are visible to any user who can execute
 5.  Start the plugin
     -   `$ docker plugin enable nimble`
 
-**Note:** Certificates are stored in `/etc/nimblestorage` on the host and will be preserved across plugin updates.
+**Note:** Certificates are stored in `/etc/hpe-storage/` on the host and will be preserved across plugin updates.
 
 In the event of reassociating the plugin with a different HPE Nimble Storage group, certain procedures need to be followed:
 
@@ -134,7 +134,7 @@ These maps are essential to discuss with the HPE Nimble Storage administrator. A
 
 **Note:** `defaults` and `overrides` are dynamically read during runtime while `global` changes require a plugin restart.
 
-Below is an example `/etc/nimblestorage/volume-driver.json` outlining the above use cases:
+Below is an example `/etc/hpe-storage//volume-driver.json` outlining the above use cases:
 
 ```{
   "global": {
@@ -150,7 +150,7 @@ Below is an example `/etc/nimblestorage/volume-driver.json` outlining the above 
 }
 ```
 
-For an exhaustive list of options, either refer to the [HPE Nimble Storage Linux Toolkit](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) documentation or use the `help` option from the docker CLI:
+For an exhaustive list of options use the `help` option from the docker CLI:
 
 ```$ docker volume create -d nimble -o help
 Nimble Storage Docker Volume Driver: Create Help
@@ -240,16 +240,25 @@ Add these parameters to the `/etc/sysctl.d/99-hung_task_timeout.conf` file and r
 
 ## Use
 
-The [Docker Volume Workflows](https://github.com/hpe-storage/common-host-utils/blob/master/cmd/dockervolumed/managedplugin/examples/README.md) documentation covers basic usage of the plugin. The following example demonstrates the `create` command with a set of options:
+The [Docker Volume Workflows](examples/README.md) documentation covers basic usage of the plugin. The following example demonstrates the `create` command with a set of options:
 
 `docker volume create -d nimble -o size=300 -o description="Example" -o perfPolicy="Oracle OLTP" -o encryption="true" -o dedupe="true" -o protectionTemplate="Retain-30Daily" --name example`
 
 ## Uninstall
 
-The plugin can be removed using the `docker plugin rm` command. This command will not remove the configuration directory (/etc/nimblestorage).
+The plugin can be removed using the `docker plugin rm` command. This command will not remove the configuration directory (`/etc/hpe-storage/`).
 
 `docker plugin rm nimble`
 
-## Debugging
+**Note:** If this is the last plugin to reference the Nimble Group and to completely remove the configuration directory, follow the steps as below
 
-The [HPE Nimble Storage Linux Toolkit](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) documentation covers basic debugging. That documentation applies to this plugin as well.  Plugin logs will be under`/var/log`
+```markdown
+
+1. docker plugin set nimble PROVIDER_REMOVE=true
+2. docker plugin enable nimble
+3. docker plugin rm nimble
+```
+
+## FAQ
+
+The [FAQ](FAQ.md) documentation covers basic debugging. That documentation applies to this plugin as well.  Plugin logs will be under`/var/log`
