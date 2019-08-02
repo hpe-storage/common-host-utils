@@ -17,7 +17,7 @@ total 16
 -r-------- 1 root root 1521 Aug  2 00:20 container_provider_server.cert
 ```
 
-b. Additionally there is config file `volume-driver.json` present at the same location. This file can be edited
+b. Additionally there is a config file `volume-driver.json` present at the same location. This file can be edited
 to set default parameters for create volumes for docker.
 
 ### 2. Log file
