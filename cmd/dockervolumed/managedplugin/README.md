@@ -44,14 +44,14 @@ In order to create connections, attach devices and mount file systems, the plugi
 
 ## Host Configuration and Installation
 
-Setting up the plugin varies between Linux distributions. The following workflows have been tested using a Nimble iSCSI group array at **192.168.171.74** with username **admin** and password **admin**:
+Setting up the plugin varies between Linux distributions. The following workflows have been tested using a Nimble iSCSI group array at **192.168.171.74** with PROVIDER_USERNAME **admin** and PROVIDER_PASSWORD **admin**:
 
 These procedures **requires** root privileges.
 
 Red Hat 7.5+, CentOS 7.5+, Oracle Enterprise Linux 7.5+ and Fedora 28+:
 
 ```yum install -y iscsi-initiator-utils device-mapper-multipath
-docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
+docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin
 docker plugin enable nimble
 systemctl daemon-reload
@@ -64,7 +64,7 @@ Ubuntu 16.04 LTS and Ubuntu 18.04 LTS (Ubuntu 19.10 also tested):
 ```apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
+docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin glibc_libs.source=/lib/x86_64-linux-gnu
 docker plugin enable nimble
 systemctl daemon-reload
@@ -76,51 +76,77 @@ Debian 9.x (stable):
 ```apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:2.5.1
+docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin iscsiadm.source=/usr/bin/iscsiadm glibc_libs.source=/lib/x86_64-linux-gnu
 docker plugin enable nimble
 systemctl daemon-reload
 systemctl restart open-iscsi multipath-tools
 ```
 
+**NOTE:** To use the plugin on Fibre Channel environments use `PROTOCOL=FC` environment variable.
+
 ### Making Changes
 
 The `docker plugin set` command can only be used on the plugin if it is disabled. To disable the plugin, use the `docker plugin disable` command. For example:
 
-```$ docker plugin disable nimble
+```markdown
+
+$docker plugin disable nimble
 ```
+
+#### Settable Parameters
+
+List of parameters which are supported to be settable by the plugin
+
+|  Parameter              |  Description                                                |  Default |
+|-------------------------|-------------------------------------------------------------|----------|
+| `PROVIDER_IP`           | HPE Nimble Storage array ip                                 |`""`      |
+| `PROVIDER_USERNAME`     | HPE Nimble Storage array username                           |`""`      |
+| `PROVIDER_PASSWORD`     | HPE Nimble Storage array password                           |`""`      |
+| `PROVIDER_REMOVE`       | Unassociate Plugin from HPE Nimble Storage array            | `false`  |
+| `PLUGIN_TYPE`           | Type of the managed plugin `nimble` or `cv`                 | `nimble` |
+| `LOG_LEVEL`             | Log level of the plugin (`info`, `debug`, or `trace`)       | `debug`  |
+| `SCOPE`                 | Scope of the plugin (`global` or `local`)                   | `global` |
+| `PROTOCOL`              | Scsi protocol supported by the plugin (`iscsi` or `fc`)     | `iscsi`  |
 
 ### Security Consideration
 
 The HPE Nimble Storage Group credentials are visible to any user who can execute `docker plugin inspect nimble`. To limit credential visibility, the variables should be unset after certificates have been generated. The following set of steps can be used to accomplish this:
 
-1.Add the credentials
-    -   `$ docker plugin set nimble ip=192.168.171.74 username=admin password=admin`
+```markdown
+
+1. Add the credentials
+    -  docker plugin set PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin
 2.  Start the plugin
-    -   `$ docker plugin enable nimble`
+    -  docker plugin enable nimble
 3.  Stop the plugin
-    -   `$ docker plugin disable nimble`
+    -  docker plugin disable nimble
 4.  Remove the credentials
-    -   `$ docker plugin set nimble username="" password=""`
+    -  docker plugin set nimble PROVIDER_USERNAME="" PROVIDER_PASSWORD=""
 5.  Start the plugin
-    -   `$ docker plugin enable nimble`
+    -  docker plugin enable nimble
+```
 
 **Note:** Certificates are stored in `/etc/hpe-storage/` on the host and will be preserved across plugin updates.
 
 In the event of reassociating the plugin with a different HPE Nimble Storage group, certain procedures need to be followed:
 
-1.Disable the plugin
--`$ docker plugin disable nimble`
-2.Set new paramters
--`$ docker plugin set nimble PROVIDER_REMOVE=true`
-3.Enable the plugin
--`$ docker plugin enable nimble`
-4.Disable the plugin
--`$ docker plugin disable nimble`
-5.The plugin is now ready for re-configuration
--`$ docker plugin set nimble ip=< New IP address > username=admin password=admin remove=false`
+```markdown
 
-**Note:** The `remove=false` parameter must be set if the plugin ever has been unassociated from a HPE Nimble Storage group.
+1.Disable the plugin
+- docker plugin disable nimble
+2.Set new paramters
+- docker plugin set nimble PROVIDER_REMOVE=true
+3.Enable the plugin
+- docker plugin enable nimble
+4.Disable the plugin
+- docker plugin disable nimble
+5.The plugin is now ready for re-configuration
+- docker plugin set nimble PROVIDER_IP=< New IP address > PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin PROVIDER_REMOVE=false
+
+```
+
+**Note:** The `PROVIDER_REMOVE=false` parameter must be set if the plugin ever has been unassociated from a HPE Nimble Storage group.
 
 ### Configuration Files and Options
 
@@ -136,7 +162,9 @@ These maps are essential to discuss with the HPE Nimble Storage administrator. A
 
 Below is an example `/etc/hpe-storage//volume-driver.json` outlining the above use cases:
 
-```{
+```json
+
+{
   "global": {
     "nameSuffix": ".docker"
   },
@@ -152,7 +180,9 @@ Below is an example `/etc/hpe-storage//volume-driver.json` outlining the above u
 
 For an exhaustive list of options use the `help` option from the docker CLI:
 
-```$ docker volume create -d nimble -o help
+```markdown
+
+$ docker volume create -d nimble -o help
 Nimble Storage Docker Volume Driver: Create Help
 Create or Clone a Nimble Storage backed Docker Volume or Import an existing Nimble Volume or Clone of a Snapshot into Docker.
 
@@ -223,14 +253,15 @@ We recommend running a dedicated Docker host that does not host any other critic
 
 The following kernel parameters control the system behavior when a hung task is detected:
 
-```# Reset after these many seconds after a panic
+```markdown
+
+# Reset after these many seconds after a panic
 kernel.panic = 5
 
 # I do consider hung tasks reason enough to panic
 kernel.hung_task_panic = 1
 
-# To not panic in vain, I'll wait these many seconds before I declare
-a hung task
+# To not panic in vain, I'll wait these many seconds before I declare a hung task
 kernel.hung_task_timeout_secs = 150
 ```
 
