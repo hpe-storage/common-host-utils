@@ -2,12 +2,13 @@ package main
 
 // Copyright 2019 Hewlett Packard Enterprise Development LP.
 import (
-	"github.com/hpe-storage/common-host-libs/chapi"
-	log "github.com/hpe-storage/common-host-libs/logger"
-	"github.com/hpe-storage/common-host-libs/util"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/hpe-storage/common-host-libs/chapi"
+	log "github.com/hpe-storage/common-host-libs/logger"
+	"github.com/hpe-storage/common-host-libs/util"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 )
 
 func main() {
-	log.InitLogging(chapidLog, &log.LogParams{Level: "debug"}, false)
+	log.InitLogging(chapidLog, &log.LogParams{Level: "trace"}, false)
 	log.Infof("Starting chapi server version %s(%s)...", Version, Commit)
 	nimbledChan := make(chan error)
 	chapi.RunNimbled(nimbledChan)
@@ -31,7 +32,7 @@ func main() {
 		syscall.SIGQUIT)
 	go func() {
 		s := <-sigc
-		util.LogError.Fatalf("Exiting due to signal notification.  Signal was %v.", s.String())
+		log.Fatalf("Exiting due to signal notification.  Signal was %v.", s.String())
 		os.Exit(1)
 	}()
 	x := <-nimbledChan

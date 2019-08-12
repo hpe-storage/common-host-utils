@@ -22,7 +22,6 @@ import (
 
 	"github.com/hpe-storage/common-host-libs/chapi2"
 	log "github.com/hpe-storage/common-host-libs/logger"
-	"github.com/hpe-storage/common-host-libs/util"
 	"github.com/hpe-storage/common-host-libs/windows"
 	"github.com/hpe-storage/common-host-libs/windows/winservice"
 	"github.com/hpe-storage/common-host-libs/windows/wmi"
@@ -72,7 +71,7 @@ func main() {
 
 	// Now create our log file
 	chapiLogFile := filepath.Join(chapiLogFolder, logFilename)
-	log.InitLogging(chapiLogFile, nil, false)
+	log.InitLogging(chapiLogFile, &log.LogParams{Level: "trace"}, false)
 	defer cleanup()
 
 	// Log the service name, any input parameters, and the log path
@@ -134,7 +133,7 @@ func main() {
 		usage(fmt.Sprintf("invalid command %s", cmd))
 	}
 	if err != nil {
-		util.LogError.Fatalf("failed to %s %s: %v", cmd, svcName, err)
+		log.Fatalf("failed to %s %s: %v", cmd, svcName, err)
 	}
 	return
 }
