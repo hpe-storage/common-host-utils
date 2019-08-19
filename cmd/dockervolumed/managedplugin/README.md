@@ -48,7 +48,7 @@ Setting up the plugin varies between Linux distributions. The following workflow
 
 These procedures **requires** root privileges.
 
-Red Hat 7.5+, CentOS 7.5+, Oracle Enterprise Linux 7.5+ and Fedora 28+:
+Red Hat 7.5+, CentOS 7.5+:
 
 ```yum install -y iscsi-initiator-utils device-mapper-multipath
 docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
@@ -59,7 +59,7 @@ systemctl enable iscsid multipathd
 systemctl start iscsid multipathd
 ```
 
-Ubuntu 16.04 LTS and Ubuntu 18.04 LTS (Ubuntu 19.10 also tested):
+Ubuntu 16.04 LTS and Ubuntu 18.04 LTS:
 
 ```apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
