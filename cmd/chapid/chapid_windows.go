@@ -19,6 +19,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/hpe-storage/common-host-libs/chapi2"
 	log "github.com/hpe-storage/common-host-libs/logger"
@@ -26,13 +27,15 @@ import (
 	"github.com/hpe-storage/common-host-libs/windows/winservice"
 	"github.com/hpe-storage/common-host-libs/windows/wmi"
 	"golang.org/x/sys/windows/svc"
+	"golang.org/x/sys/windows/svc/mgr"
 )
 
 const (
-	svcName            = "HPEVolumeService"
-	svcDisplayName     = "HPE Volume Management Service"
-	svcDescription     = "Provides services needed to manage HPE volumes"
-	svcLogPathTemplate = "chapid-%v.log" // %v is the instance's location GUID; see NWT-3508 for details
+	svcName                 = "HPEVolumeService"
+	svcDisplayName          = "HPE Volume Management Service"
+	svcDescription          = "Provides services needed to manage HPE volumes"
+	svcLogPathTemplate      = "chapid-%v.log" // %v is the instance's location GUID; see NWT-3508 for details
+	restartServiceOnFailure = 5 * time.Second // Automatically restart service 5 seconds after any crash occurs
 )
 
 var (
@@ -105,7 +108,14 @@ func main() {
 		chapiService.RunService(svcName, true)
 		return
 	case "install":
-		err = chapiService.InstallService(svcName, svcDisplayName, svcDescription)
+		// If Windows service fails, configure service manager to automatically restart the service
+		recoveryActions := []mgr.RecoveryAction{
+			{Type: mgr.ServiceRestart, Delay: restartServiceOnFailure},
+			{Type: mgr.ServiceRestart, Delay: restartServiceOnFailure},
+			{Type: mgr.ServiceRestart, Delay: restartServiceOnFailure},
+		}
+		serviceConfig := mgr.Config{DisplayName: svcDisplayName, Description: svcDescription, StartType: mgr.StartAutomatic}
+		err = chapiService.InstallServiceWithOptions(svcName, serviceConfig, recoveryActions, 0)
 	case "remove":
 		err = chapiService.RemoveService(svcName)
 	case "start":
@@ -253,7 +263,8 @@ func wmiQuery(wmiClass string, loopCount int) (err error) {
 			}
 			// Convert JSON to text and print to log file and console
 			wmiText := string(wmiTextResults)
-			log.Info("\n" + wmiText)
+			log.Infoln("")
+			log.Info(wmiText)
 			fmt.Println(wmiText)
 		}
 	}
