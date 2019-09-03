@@ -116,9 +116,7 @@ ifeq ($(NESTED_MAKE),)
 	export $(GOENV) && gometalinter --install
 	@echo "$(A2) get glide"
 	go get -u github.com/Masterminds/glide
-	go install github.com/Masterminds/glide
 	go get -u github.com/josephspurrier/goversioninfo
-	go install github.com/josephspurrier/goversioninfo/cmd/goversioninfo
 	go install ./cmd/updatewinversioninfo/
 endif
 	@echo "$(S0)"
