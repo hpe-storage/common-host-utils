@@ -2,20 +2,17 @@
 # Requirements
 
 - Docker Engine 17.09 or greater
-- If using Docker Enterprise Edition 2.x, the plugin is only supported in swarmmode
+- Managed Plugin is supported in either standalone or swarm mode but not with Kubernetes.
 - Recent Red Hat, Debian or Ubuntu-based Linux distribution
-- NimbleOS 5.0.8 or greater on a HPE Nimble Storage array
+- NimbleOS `5.1.3.x` or greater on a HPE Nimble Storage array
 
-**Note:** Docker does not support certified and managed Docker Volume plugins with Kubnernetes. If you want to use Kubernetes on Docker with HPE Nimble Storage, please use the [HPE Flexvolume Plugins](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) and follow the HPE Nimble Storage Integration Guide for Docker Enterprise Edition found on [HPE InfoSight](https://infosight.hpe.com) to deploy a fully supported solution.
+**Note:** Docker does not support certified and managed Docker Volume plugins with Kubnernetes. If you want to use Kubernetes on Docker with HPE Nimble Storage, please use the [hpe-flexvolume-driver-v3.0.0.yaml](https://raw.githubusercontent.com/hpe-storage/co-deployments/master/yaml/flexvolume-driver/hpe-flexvolume-driver-v3.0.0.yaml) and follow the Instructions about the workflows supported by the driver at [HPE Flexvolume Driver](https://github.com/hpe-storage/flexvolume-driver/tree/v3.0.0) to deploy a fully supported solution.
 
 # Limitations
-
-HPE Nimble Storage provides a Docker certified plugin delivered through the Docker Store. HPE Nimble Storage also provides a Docker Volume plugin for Windows Containers as part of the Nimble Windows Toolkit (NWT) which is available on [HPE InfoSight](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Docker%20Volume%20Plugin). Certain features and capabilities are not available through the managed plugin. Please understand these limitations before deploying either of these plugins.
 
 The managed plugin does NOT provide:
 
 - Support for Docker's release of Kubernetes in Docker Enterprise Edition 2.x
-- Locally scoped volumes
 - Support for older versions of NimbleOS (all versions below 5.x)
 - Support for Windows Containers
 
