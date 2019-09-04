@@ -139,7 +139,6 @@ Import an HPE Nimble Storage volume to Docker.
 Import the HPE Nimble Storage volume named importMe as a Docker volume named imported.
 
 ```docker volume create -d nimble --name=imported -o importVol=importMe```
-```imported```
 
 ## 4. Import a Volume Snapshot to Docker
 
