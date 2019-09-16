@@ -15,7 +15,6 @@ HPE Nimble Storage provides a Docker certified plugin delivered through the Dock
 The managed plugin does NOT provide:
 
 - Support for Docker's release of Kubernetes in Docker Enterprise Edition 2.x
-- Locally scoped volumes
 - Support for older versions of NimbleOS (all versions below 5.x)
 - Support for Windows Containers
 
