@@ -1,9 +1,16 @@
 
 # Requirements
+
 - Docker Engine 17.09 or greater
 - If using Docker Enterprise Edition 2.x, the plugin is only supported in swarmmode
 - Recent Red Hat, Debian or Ubuntu-based Linux distribution
 - NimbleOS 5.0.8/5.1.3 or greater on a HPE Nimble Storage array
+
+### HPE Nimble Storage
+
+| Plugin      | HPE Nimble Storage Version | Release Notes    |
+|-------------|----------------------------|------------------|
+| 3.0.0      | 5.1.3.x and above          | [v3.0.0](release-notes/v3.0.0.md)|
 
 **Note:** Docker does not support certified and managed Docker Volume plugins with Kubernetes. If you want to use Kubernetes on Docker with HPE Nimble Storage, please use the [HPE Flexvolume Plugins](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) and follow the HPE Nimble Storage Integration Guide for Docker Enterprise Edition found on [HPE InfoSight](https://infosight.hpe.com) to deploy a fully supported solution.
 
@@ -122,7 +129,7 @@ The HPE Nimble Storage Group credentials are visible to any user who can execute
   docker plugin set nimble PROVIDER_USERNAME="" PROVIDER_PASSWORD=""
   ```
 - Start the plugin
-  ```  
+  ```
   docker plugin enable nimble
   ```
 
