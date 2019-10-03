@@ -1,17 +1,19 @@
+// Copyright 2019 Hewlett Packard Enterprise Development LP
+
 package main
 
-// Copyright 2019 Hewlett Packard Enterprise Development LP.
 import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/hpe-storage/common-host-libs/linux"
 	log "github.com/hpe-storage/common-host-libs/logger"
 	"github.com/hpe-storage/common-host-libs/tunelinux"
 	"golang.org/x/crypto/ssh/terminal"
-	"os"
 )
 
 var (

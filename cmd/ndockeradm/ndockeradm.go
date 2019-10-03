@@ -1,13 +1,16 @@
+// Copyright 2019 Hewlett Packard Enterprise Development LP
+
 package main
 
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"os"
+
 	"github.com/hpe-storage/common-host-libs/dockerplugin/plugin"
 	"github.com/hpe-storage/common-host-libs/dockerplugin/provider"
 	log "github.com/hpe-storage/common-host-libs/logger"
-	"io/ioutil"
-	"os"
 )
 
 var (
