@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"os"
+
 	"github.com/hpe-storage/common-host-libs/dockerplugin/plugin"
 	"github.com/hpe-storage/common-host-libs/dockerplugin/provider"
 	log "github.com/hpe-storage/common-host-libs/logger"
-	"io/ioutil"
-	"os"
 )
 
 var (
@@ -37,8 +38,8 @@ func main() {
 		fmt.Printf("\nHPE Nimble Storage Docker Admin Utility\n")
 		fmt.Printf("\nUsage:\n")
 		fmt.Println()
-		fmt.Printf("ndockeradm add [-ip-address {GROUP MANAGEMEMT IP}] [-username {GROUP USERNAME}] [-password {GROUP PASSWORD}] \n")
-		fmt.Printf("ndockeradm remove [-ip-address {GROUP MANAGEMEMT IP}] [-username {GROUP USERNAME}] [-password {GROUP PASSWORD}] \n")
+		fmt.Printf("ndockeradm add [-ipaddress {GROUP MANAGEMEMT IP}] [-username {GROUP USERNAME}] [-password {GROUP PASSWORD}] \n")
+		fmt.Printf("ndockeradm remove [-ipaddress {GROUP MANAGEMEMT IP}] [-username {GROUP USERNAME}] [-password {GROUP PASSWORD}] \n")
 		fmt.Println()
 	}
 	// check if the necessary logs file directories are created. create if not present
@@ -84,7 +85,7 @@ func main() {
 }
 
 func parseAddGroup(ipAddressAdd string, username string, password string, addGroupCmd *flag.FlagSet) {
-	log.Trace("parseAddGroup called with ", ipAddressAdd, username, password)
+	log.Trace("parseAddGroup called with ", ipAddressAdd, username)
 	// Required Flags
 	if ipAddressAdd == "" || username == "" || password == "" {
 		addGroupCmd.PrintDefaults()
@@ -99,6 +100,8 @@ func parseAddGroup(ipAddressAdd string, username string, password string, addGro
 	if err != nil {
 		log.Error(err.Error())
 		fmt.Printf(err.Error())
+		// delete the invalid certs
+		os.RemoveAll(DockerCertHome)
 		return
 	}
 }
