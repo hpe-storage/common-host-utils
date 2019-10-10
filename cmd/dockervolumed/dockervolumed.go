@@ -218,15 +218,20 @@ func handleConformance() (err error) {
 	// package conformance checks and automatic package installation is not supported for managed plugins
 	// so, only copy multipath.conf if missing
 	if plugin.IsManagedPlugin() {
-		if exists, _, _ := util.FileExists(linux.MultipathConf); exists {
-			return nil
+		// multipath checks
+		if exists, _, _ := util.FileExists(linux.MultipathConf); !exists {
+			// Copy the multipath.conf supplied with utility
+			multipathTemplate, err := tunelinux.GetMultipathTemplateFile()
+			if err != nil {
+				return err
+			}
+			err = util.CopyFile(multipathTemplate, linux.MultipathConf)
+			if err != nil {
+				return err
+			}
 		}
-		// Copy the multipath.conf supplied with utility
-		multipathTemplate, err := tunelinux.GetMultipathTemplateFile()
-		if err != nil {
-			return err
-		}
-		err = util.CopyFile(multipathTemplate, linux.MultipathConf)
+		// iscsi checks
+		err = tunelinux.SetIscsiRecommendations()
 		if err != nil {
 			return err
 		}
