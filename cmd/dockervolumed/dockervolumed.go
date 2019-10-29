@@ -355,11 +355,12 @@ func copyFlexVolumeDriver(pluginType plugin.PluginType) error {
 	}
 
 	// copy config file dory.json, if not already present
-	exists, _, _ := util.FileExists(driverPath + doryConfigFile)
+	targetConfigFile := driverPath + pluginType.String() + ".json"
+	exists, _, _ := util.FileExists(targetConfigFile)
 	if !exists {
 		log.Tracef("copying the %s flexvolume config file to %s", pluginType.String(), driverPath)
 		configFile := fmt.Sprintf("%s%s-%s", stagingConfigPath, pluginType.String(), doryConfigFile)
-		if err := util.CopyFile(configFile, driverPath+pluginType.String()+".json"); err != nil {
+		if err := util.CopyFile(configFile, targetConfigFile); err != nil {
 			return fmt.Errorf("unable to copy the flexvolume config file on the host %s", err.Error())
 		}
 	}
