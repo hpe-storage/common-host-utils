@@ -60,7 +60,7 @@ Plugin "nimble" is requesting the following privileges:
 
 Setting up the plugin varies between Linux distributions. The following workflows have been tested using a Nimble iSCSI group array at **192.168.171.74** with PROVIDER_USERNAME **admin** and PROVIDER_PASSWORD **admin**:
 
-These procedures **requires** root privileges.
+These procedures **require** root privileges.
 
 Red Hat 7.5+, CentOS 7.5+:
 ```
