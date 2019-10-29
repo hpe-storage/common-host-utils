@@ -106,9 +106,9 @@ These procedures **requires** root privileges.
 Red Hat 7.5+, CentOS 7.5+:
 ```
 yum install -y iscsi-initiator-utils device-mapper-multipath
-docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin install --disable --grant-all-permissions --alias cvblock store/hpestorage/cvblock:3.1.0
 docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret>
-docker plugin enable cv
+docker plugin enable cvblock
 systemctl daemon-reload
 systemctl enable iscsid multipathd
 systemctl start iscsid multipathd
@@ -119,9 +119,9 @@ Ubuntu 16.04 LTS and Ubuntu 18.04 LTS:
 apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin install --disable --grant-all-permissions --alias cvblock store/hpestorage/cvblock:3.1.0
 docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret> glibc_libs.source=/lib/x86_64-linux-gnu
-docker plugin enable cv
+docker plugin enable cvblock
 systemctl daemon-reload
 systemctl restart open-iscsi multipath-tools
 ```
@@ -131,9 +131,9 @@ Debian 9.x (stable):
 apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin install --disable --grant-all-permissions --alias cvblock store/hpestorage/cvblock:3.1.0
 docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret> iscsiadm.source=/usr/bin/iscsiadm glibc_libs.source=/lib/x86_64-linux-gnu
-docker plugin enable cv
+docker plugin enable cvblock
 systemctl daemon-reload
 systemctl restart open-iscsi multipath-tools
 ```
@@ -148,7 +148,7 @@ docker plugin disable nimble
 or
 
 ```
-docker plugin disable cv
+docker plugin disable cvblock
 ```
 
 #### Settable Parameters
@@ -435,6 +435,7 @@ The plugin can be removed using the `docker plugin rm` command. This command wil
 ```
 docker plugin rm nimble
 ```
+**Note:** For HPE Cloud Volumes, replace plugin  name `nimble` with `cvblock`.
 
 **Note:** If this is the last plugin to reference the Nimble Group and to completely remove the configuration directory, follow the steps as below
 
@@ -443,8 +444,6 @@ docker plugin set nimble PROVIDER_REMOVE=true
 docker plugin enable nimble
 docker plugin rm nimble
 ```
-
-**Note:** For HPE Cloud Volumes, replace `nimble` with plugin name as `cv`
 
 ## FAQ
 The [FAQ](https://github.com/hpe-storage/common-host-utils/blob/master/cmd/dockervolumed/managedplugin/FAQ.md) documentation covers basic debugging. That documentation applies to this plugin as well. Plugin logs will be under `/var/log`
