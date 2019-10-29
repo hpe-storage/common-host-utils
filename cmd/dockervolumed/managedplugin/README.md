@@ -5,12 +5,20 @@
 - If using Docker Enterprise Edition 2.x, the plugin is only supported in swarmmode
 - Recent Red Hat, Debian or Ubuntu-based Linux distribution
 - NimbleOS 5.0.8/5.1.3 or greater on a HPE Nimble Storage array
+- US regions only for HPE Cloud Volumes
 
 ### HPE Nimble Storage
 
 | Plugin      | HPE Nimble Storage Version | Release Notes    |
 |-------------|----------------------------|------------------|
-| 3.0.0      | 5.1.3.x and above          | [v3.0.0](release-notes/v3.0.0.md)|
+| 3.0.0      | 5.0.8.x and 5.1.3.x onwards | [v3.0.0](release-notes/v3.0.0.md)|
+| 3.1.0      | 5.0.8.x and 5.1.3.x onwards | [v3.1.0](release-notes/v3.1.0.md)|
+
+### HPE Cloud Volumes
+
+| Plugin      | Release Notes    |
+|-------------|------------------|
+| 3.1.0       | [v3.1.0](release-notes/v3.1.0.md)|
 
 **Note:** Docker does not support certified and managed Docker Volume plugins with Kubernetes. If you want to use Kubernetes on Docker with HPE Nimble Storage, please use the [HPE Flexvolume Plugins](https://infosight.hpe.com/tenant/Nimble.Tenant.0013400001Ug0UxAAJ/resources/nimble/software/Integration%20Kits/HPE%20Nimble%20Storage%20Linux%20Toolkit%20(NLT)) and follow the HPE Nimble Storage Integration Guide for Docker Enterprise Edition found on [HPE InfoSight](https://infosight.hpe.com) to deploy a fully supported solution.
 
@@ -23,7 +31,7 @@ The managed plugin does NOT provide:
 - Support for older versions of NimbleOS (all versions below 5.x)
 - Support for Windows Containers
 
-The managed plugin does provide a simple way to manage the HPE Nimble Storage integration on your Docker hosts using Docker's interface to install and manage the plugin.
+The managed plugin does provide a simple way to manage HPE Nimble Storage and HPE Cloud Volumes integration on your Docker hosts using Docker's interface to install and manage the plugin.
 
 # How to Use this Plugin
 
@@ -47,14 +55,17 @@ Plugin "nimble" is requesting the following privileges:
 ```
 
 ## Host Configuration and Installation
+
+### HPE Nimble Storage
+
 Setting up the plugin varies between Linux distributions. The following workflows have been tested using a Nimble iSCSI group array at **192.168.171.74** with PROVIDER_USERNAME **admin** and PROVIDER_PASSWORD **admin**:
 
-These procedures **requires** root privileges.
+These procedures **require** root privileges.
 
 Red Hat 7.5+, CentOS 7.5+:
 ```
 yum install -y iscsi-initiator-utils device-mapper-multipath
-docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
+docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:3.1.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin
 docker plugin enable nimble
 systemctl daemon-reload
@@ -67,7 +78,7 @@ Ubuntu 16.04 LTS and Ubuntu 18.04 LTS:
 apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
+docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:3.1.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin glibc_libs.source=/lib/x86_64-linux-gnu
 docker plugin enable nimble
 systemctl daemon-reload
@@ -79,7 +90,7 @@ Debian 9.x (stable):
 apt-get install -y open-iscsi multipath-tools xfsprogs
 modprobe xfs
 sed -i"" -e "\$axfs" /etc/modules
-docker plugin install --disable --grant-all-permissions --alias nimble store/hpestorage/nimble:3.0.0
+docker plugin install --disable --grant-all-permissions --alias nimble store/nimblestorage/nimble:3.1.0
 docker plugin set nimble PROVIDER_IP=192.168.171.74 PROVIDER_USERNAME=admin PROVIDER_PASSWORD=admin iscsiadm.source=/usr/bin/iscsiadm glibc_libs.source=/lib/x86_64-linux-gnu
 docker plugin enable nimble
 systemctl daemon-reload
@@ -88,11 +99,56 @@ systemctl restart open-iscsi multipath-tools
 
 **NOTE:** To use the plugin on Fibre Channel environments use `PROTOCOL=FC` environment variable.
 
+### HPE Cloud Volumes
+
+These procedures **requires** root privileges.
+
+Red Hat 7.5+, CentOS 7.5+:
+```
+yum install -y iscsi-initiator-utils device-mapper-multipath
+docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret>
+docker plugin enable cv
+systemctl daemon-reload
+systemctl enable iscsid multipathd
+systemctl start iscsid multipathd
+```
+
+Ubuntu 16.04 LTS and Ubuntu 18.04 LTS:
+```
+apt-get install -y open-iscsi multipath-tools xfsprogs
+modprobe xfs
+sed -i"" -e "\$axfs" /etc/modules
+docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret> glibc_libs.source=/lib/x86_64-linux-gnu
+docker plugin enable cv
+systemctl daemon-reload
+systemctl restart open-iscsi multipath-tools
+```
+
+Debian 9.x (stable):
+```
+apt-get install -y open-iscsi multipath-tools xfsprogs
+modprobe xfs
+sed -i"" -e "\$axfs" /etc/modules
+docker plugin install --disable --grant-all-permissions --alias cv store/cloudvolumes/cv:3.1.0
+docker plugin set cv PROVIDER_IP=cloudvolumes.hpe.com PROVIDER_USERNAME=<access_key> PROVIDER_PASSWORD=<access_secret> iscsiadm.source=/usr/bin/iscsiadm glibc_libs.source=/lib/x86_64-linux-gnu
+docker plugin enable cv
+systemctl daemon-reload
+systemctl restart open-iscsi multipath-tools
+```
+
 ### Making Changes
 The `docker plugin set` command can only be used on the plugin if it is disabled. To disable the plugin, use the `docker plugin disable` command. For example:
 
 ```
 docker plugin disable nimble
+```
+
+or
+
+```
+docker plugin disable cv
 ```
 
 #### Settable Parameters
@@ -104,13 +160,12 @@ List of parameters which are supported to be settable by the plugin
 | `PROVIDER_USERNAME`     | HPE Nimble Storage array username                           |`""`      |
 | `PROVIDER_PASSWORD`     | HPE Nimble Storage array password                           |`""`      |
 | `PROVIDER_REMOVE`       | Unassociate Plugin from HPE Nimble Storage array            | `false`  |
-| `PLUGIN_TYPE`           | Type of the managed plugin `nimble` or `cv`                 | `nimble` |
 | `LOG_LEVEL`             | Log level of the plugin (`info`, `debug`, or `trace`)       | `debug`  |
 | `SCOPE`                 | Scope of the plugin (`global` or `local`)                   | `global` |
 | `PROTOCOL`              | Scsi protocol supported by the plugin (`iscsi` or `fc`)     | `iscsi`  |
 
 ### Security Consideration
-The HPE Nimble Storage Group credentials are visible to any user who can execute `docker plugin inspect nimble`. To limit credential visibility, the variables should be unset after certificates have been generated. The following set of steps can be used to accomplish this:
+The HPE Nimble Storage credentials are visible to any user who can execute `docker plugin inspect nimble`. To limit credential visibility, the variables should be unset after certificates have been generated. The following set of steps can be used to accomplish this:
 
 - Add the credentials
   ```
@@ -132,7 +187,8 @@ The HPE Nimble Storage Group credentials are visible to any user who can execute
   ```
   docker plugin enable nimble
   ```
-
+**Note:** For HPE Cloud Volumes, these steps are not applicable, as env variables needs to be set for plugin to be
+functional
 **Note:** Certificates are stored in `/etc/hpe-storage/` on the host and will be preserved across plugin updates.
 
 In the event of reassociating the plugin with a different HPE Nimble Storage group, certain procedures need to be followed:
@@ -186,6 +242,35 @@ Below is an example `/etc/hpe-storage/volume-driver.json` outlining the above us
   }
 }
 ```
+
+Example config for HPE Cloud Volumes:
+```json
+    {
+      "global": {
+                "snapPrefix": "BaseFor",
+                "initiators": ["eth0"],
+                "automatedConnection": true,
+                "existingCloudSubnet": "10.1.0.0/24",
+                "region": "us-east-1",
+                "privateCloud": "vpc-data",
+                "cloudComputeProvider": "Amazon AWS"
+      },
+      "defaults": {
+                "limitIOPS": 1000,
+                "fsOwner": "0:0",
+                "fsMode": "600",
+                "description": "Volume provisioned by the HPE Volume Driver for Kubernetes FlexVolume Plugin",
+                "perfPolicy": "Other",
+                "protectionTemplate": "twicedaily:4",
+                "encryption": true,
+                "volumeType": "PF",
+                "destroyOnRm": true
+      },
+      "overrides": {
+      }
+    }
+```
+
 
 For an exhaustive list of options use the `help` option from the docker CLI:
 ```
@@ -358,6 +443,8 @@ docker plugin set nimble PROVIDER_REMOVE=true
 docker plugin enable nimble
 docker plugin rm nimble
 ```
+
+**Note:** For HPE Cloud Volumes, replace `nimble` with plugin name as `cv`
 
 ## FAQ
 The [FAQ](https://github.com/hpe-storage/common-host-utils/blob/master/cmd/dockervolumed/managedplugin/FAQ.md) documentation covers basic debugging. That documentation applies to this plugin as well. Plugin logs will be under `/var/log`
