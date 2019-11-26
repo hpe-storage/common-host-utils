@@ -47,6 +47,7 @@ type getOptions struct {
 type setOptions struct {
 	category string
 	severity string
+	setReplacementTimeout bool
 }
 
 // change display color for text based on compliance status
@@ -317,8 +318,13 @@ func handleGetRecommendations(getCommandOptions *getOptions) (err error) {
 
 // handle set recommendations command
 func handleSetRecomendations(setCommandOptions *setOptions) (err error) {
+	//sets the replacement timeout for iscsisessions
+	if setCommandOptions.setReplacementTimeout == true {
+                err = tunelinux.UpdateIscsiSessionReplacementTimeout()
+        } else {
 	// set recommendations for category
 	err = setRecommendationsByCategory(setCommandOptions.category)
+	}
 	return err
 }
 
@@ -343,6 +349,7 @@ const (
 	xmlDescription        = "XML output of recommendations. (Optional)"
 	verboseDescription    = "Verbose output. (Optional)"
 	versionDescription    = "Display version of the tool. (Optional)"
+	setReplacementTimeoutDescription   = "setting replacement timeout"
 	NimbleTuneLogFile     = "/var/log/nimbletune.log"
 )
 
@@ -356,6 +363,7 @@ var (
 	jsonFlag         = flag.Bool("json", false, jsonDescription)
 	xmlFlag          = flag.Bool("xml", false, xmlDescription)
 	versionFlag      = flag.Bool("version", false, xmlDescription)
+	setReplacementTimeout = flag.Bool("setReplacementTimeout", false, setReplacementTimeoutDescription)
 )
 
 // initialize command options for short options
@@ -433,7 +441,8 @@ func main() {
 		// get the options structure
 		setCommandOptions := &setOptions{
 			category: *category,
-			severity: *severity}
+			severity: *severity,
+			setReplacementTimeout: *setReplacementTimeout}
 
 		validateCategory(*category)
 		validateSeverity(*severity)
