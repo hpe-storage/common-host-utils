@@ -21,7 +21,7 @@ func main() {
 	discoveryip := "172.16.234.48"
 	iqn := "iqn.2007-11.com.nimblestorage:createtest0005-v0bb3b16fff385f8a.0000024a.f48beee5"
 	log.Trace("Perform Iscsi Discovery")
-	iscsiTargets, err := linux.PerformDiscovery(discoveryip)
+	iscsiTargets, err := linux.PerformDiscovery([]string{discoveryip})
 	if err == nil {
 		for _, s := range iscsiTargets {
 			log.Trace(s.Name)
