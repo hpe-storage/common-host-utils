@@ -47,7 +47,7 @@ type getOptions struct {
 type setOptions struct {
 	category string
 	severity string
-	setReplacementTimeout bool
+	global   bool
 }
 
 // change display color for text based on compliance status
@@ -206,7 +206,7 @@ func getRecommendationByCategory(category string) (err error) {
 	return err
 }
 
-func setRecommendationsByCategory(category string) (err error) {
+func setRecommendationsByCategory(category string, global bool) (err error) {
 	if category == tunelinux.Category.String(tunelinux.Filesystem) || category == tunelinux.Category.String(tunelinux.Fc) {
 		err = errors.New("Only multipath/disk/iscsi categories supported for set recommendations. For others please follow the documentation as specified in the description for each recommendation setting")
 		return err
@@ -217,9 +217,9 @@ func setRecommendationsByCategory(category string) (err error) {
 	case tunelinux.Category.String(tunelinux.Disk):
 		err = tunelinux.SetBlockDeviceRecommendations()
 	case tunelinux.Category.String(tunelinux.Iscsi):
-		err = tunelinux.SetIscsiRecommendations()
+		err = tunelinux.SetIscsiRecommendations(global)
 	case tunelinux.All:
-		err = tunelinux.SetRecommendations()
+		err = tunelinux.SetRecommendations(global)
 	}
 	if err != nil {
 		fmt.Printf("Failed to apply %s recommendations, error: %s\n", category, err.Error())
@@ -318,13 +318,8 @@ func handleGetRecommendations(getCommandOptions *getOptions) (err error) {
 
 // handle set recommendations command
 func handleSetRecomendations(setCommandOptions *setOptions) (err error) {
-	//sets the replacement timeout for iscsisessions
-	if setCommandOptions.setReplacementTimeout == true {
-                err = tunelinux.UpdateIscsiSessionReplacementTimeout()
-        } else {
 	// set recommendations for category
-	err = setRecommendationsByCategory(setCommandOptions.category)
-	}
+	err = setRecommendationsByCategory(setCommandOptions.category, setCommandOptions.global)
 	return err
 }
 
@@ -349,7 +344,7 @@ const (
 	xmlDescription        = "XML output of recommendations. (Optional)"
 	verboseDescription    = "Verbose output. (Optional)"
 	versionDescription    = "Display version of the tool. (Optional)"
-	setReplacementTimeoutDescription   = "setting replacement timeout"
+	globalDescription     = "Setting iSCSI params per volume instead of at host level in iscsid.conf"
 	NimbleTuneLogFile     = "/var/log/nimbletune.log"
 )
 
@@ -363,7 +358,7 @@ var (
 	jsonFlag         = flag.Bool("json", false, jsonDescription)
 	xmlFlag          = flag.Bool("xml", false, xmlDescription)
 	versionFlag      = flag.Bool("version", false, xmlDescription)
-	setReplacementTimeout = flag.Bool("setReplacementTimeout", false, setReplacementTimeoutDescription)
+	global           = flag.Bool("global", false, globalDescription)
 )
 
 // initialize command options for short options
@@ -442,7 +437,7 @@ func main() {
 		setCommandOptions := &setOptions{
 			category: *category,
 			severity: *severity,
-			setReplacementTimeout: *setReplacementTimeout}
+			global:   *global}
 
 		validateCategory(*category)
 		validateSeverity(*severity)
