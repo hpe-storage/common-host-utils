@@ -23,7 +23,7 @@ var (
 	devices      []*model.Device
 	device       model.Device
 	initiators   []*model.Initiator
-	networks     []*model.Network
+	networks     []*model.NetworkInterface
 	partitions   []*model.DevicePartition
 	mounts       []*model.Mount
 	uuid         string
@@ -31,7 +31,7 @@ var (
 	serialnumber string
 	devicesReq   []*model.Device
 	initiatorReq []*model.Initiator
-	networkReq   []*model.Network
+	networkReq   []*model.NetworkInterface
 	mountStruct  model.Mount
 	mountID      string
 	config       *jconfig.Config
@@ -73,7 +73,7 @@ func init() {
 	}
 	initiatorReq = append(initiatorReq, &initReq)
 
-	netReq := model.Network{
+	netReq := model.NetworkInterface{
 		Name:      config.GetString("netinf"),
 		AddressV4: config.GetString("addressV4"),
 	}
