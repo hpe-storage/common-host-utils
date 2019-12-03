@@ -344,7 +344,7 @@ const (
 	xmlDescription        = "XML output of recommendations. (Optional)"
 	verboseDescription    = "Verbose output. (Optional)"
 	versionDescription    = "Display version of the tool. (Optional)"
-	globalDescription     = "Setting iSCSI params per volume instead of at host level in iscsid.conf"
+	globalDescription     = "If true, settings will be configured globally at host level wherever applicable(eg iscsid.conf),default:false"
 	NimbleTuneLogFile     = "/var/log/nimbletune.log"
 )
 
