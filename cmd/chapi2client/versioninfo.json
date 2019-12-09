@@ -1,13 +1,13 @@
 {
     "FixedFileInfo": {
         "FileVersion": {
-            "Major": 0,
+            "Major": 3,
             "Minor": 0,
             "Patch": 0,
             "Build": 0
         },
         "ProductVersion": {
-            "Major": 0,
+            "Major": 3,
             "Minor": 0,
             "Patch": 0,
             "Build": 0
@@ -22,14 +22,14 @@
         "Comments": "",
         "CompanyName": "Hewlett Packard Enterprise",
         "FileDescription": "HPE CHAPI2 Exerciser",
-        "FileVersion": "0.0.0.0",
+        "FileVersion": "3.0.0.0",
         "InternalName": "",
         "LegalCopyright": "(c) Copyright 2019 Hewlett Packard Enterprise Development LP",
         "LegalTrademarks": "",
         "OriginalFilename": "",
         "PrivateBuild": "",
         "ProductName": "HPE CHAPI2 Exerciser",
-        "ProductVersion": "0.0.0.0",
+        "ProductVersion": "3.0.0.0",
         "SpecialBuild": ""
     },
     "VarFileInfo": {
