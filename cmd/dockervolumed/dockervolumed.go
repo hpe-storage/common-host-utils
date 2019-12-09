@@ -231,7 +231,7 @@ func handleConformance() (err error) {
 			}
 		}
 		// iscsi checks
-		err = tunelinux.SetIscsiRecommendations()
+		err = tunelinux.SetIscsiRecommendations(true)
 		if err != nil {
 			return err
 		}
