@@ -38,7 +38,7 @@ func main() {
 
 	log.Trace("Rescan and Login")
 	volume := &model.Volume{DiscoveryIP: discoveryip, Iqn: iqn, ConnectionMode: "automatic", LunID: "0"}
-	err = linux.RescanAndLoginToTarget(volume)
+	err = linux.HandleIscsiDiscovery(volume)
 	if err != nil {
 		log.Trace(err.Error())
 	}
