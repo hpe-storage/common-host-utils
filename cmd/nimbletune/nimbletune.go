@@ -344,7 +344,7 @@ const (
 	xmlDescription        = "XML output of recommendations. (Optional)"
 	verboseDescription    = "Verbose output. (Optional)"
 	versionDescription    = "Display version of the tool. (Optional)"
-	globalDescription     = "If true, settings will be configured globally at host level wherever applicable(eg iscsid.conf),default:false"
+	globalDescription     = "Configure settings at the host level {true | false}. (Optional)"
 	NimbleTuneLogFile     = "/var/log/nimbletune.log"
 )
 
@@ -385,6 +385,7 @@ func main() {
 		fmt.Printf("\t%-20s\t%-50s\n", "-sev, -severity", severityDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-json", jsonDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-xml", xmlDescription)
+                fmt.Printf("\t%-20s\t%-50s\n", "-global", globalDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-verbose", verboseDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-v, -version", versionDescription)
 		fmt.Println()
