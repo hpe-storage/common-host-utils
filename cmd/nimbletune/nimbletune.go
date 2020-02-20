@@ -1,17 +1,19 @@
+// Copyright 2019 Hewlett Packard Enterprise Development LP
+
 package main
 
-// Copyright 2019 Hewlett Packard Enterprise Development LP.
 import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/hpe-storage/common-host-libs/linux"
 	log "github.com/hpe-storage/common-host-libs/logger"
 	"github.com/hpe-storage/common-host-libs/tunelinux"
 	"golang.org/x/crypto/ssh/terminal"
-	"os"
 )
 
 var (
@@ -176,10 +178,10 @@ func displayCustomFormat(format string, complianceStatus string, severity string
 
 func getRecommendationByCategory(category string) (err error) {
 	// Get All nimble devices
-	devices, err := linux.GetNimbleDmDevices(false, "", "")
+	devices, err := linux.GetLinuxDmDevices(false, "", "")
 	if err != nil {
-		log.Error("Unable to get Nimble devices ", err.Error())
-		fmt.Print("Error: Unable to get Nimble devices ", err.Error())
+		log.Error("Unable to get linux dm devices ", err.Error())
+		fmt.Print("Error: Unable to get linux dm devices ", err.Error())
 		return err
 	}
 	switch category {
@@ -344,7 +346,7 @@ const (
 	xmlDescription        = "XML output of recommendations. (Optional)"
 	verboseDescription    = "Verbose output. (Optional)"
 	versionDescription    = "Display version of the tool. (Optional)"
-	globalDescription     = "Configure settings at the host level {true | false}. (Optional)"
+	globalDescription     = "If true, settings will be configured globally at host level wherever applicable(eg iscsid.conf),default:false"
 	NimbleTuneLogFile     = "/var/log/nimbletune.log"
 )
 

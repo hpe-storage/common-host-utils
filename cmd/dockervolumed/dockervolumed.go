@@ -218,15 +218,20 @@ func handleConformance() (err error) {
 	// package conformance checks and automatic package installation is not supported for managed plugins
 	// so, only copy multipath.conf if missing
 	if plugin.IsManagedPlugin() {
-		if exists, _, _ := util.FileExists(linux.MultipathConf); exists {
-			return nil
+		// multipath checks
+		if exists, _, _ := util.FileExists(linux.MultipathConf); !exists {
+			// Copy the multipath.conf supplied with utility
+			multipathTemplate, err := tunelinux.GetMultipathTemplateFile()
+			if err != nil {
+				return err
+			}
+			err = util.CopyFile(multipathTemplate, linux.MultipathConf)
+			if err != nil {
+				return err
+			}
 		}
-		// Copy the multipath.conf supplied with utility
-		multipathTemplate, err := tunelinux.GetMultipathTemplateFile()
-		if err != nil {
-			return err
-		}
-		err = util.CopyFile(multipathTemplate, linux.MultipathConf)
+		// iscsi checks
+		err = tunelinux.SetIscsiRecommendations(true)
 		if err != nil {
 			return err
 		}
@@ -350,11 +355,12 @@ func copyFlexVolumeDriver(pluginType plugin.PluginType) error {
 	}
 
 	// copy config file dory.json, if not already present
-	exists, _, _ := util.FileExists(driverPath + doryConfigFile)
+	targetConfigFile := driverPath + pluginType.String() + ".json"
+	exists, _, _ := util.FileExists(targetConfigFile)
 	if !exists {
 		log.Tracef("copying the %s flexvolume config file to %s", pluginType.String(), driverPath)
 		configFile := fmt.Sprintf("%s%s-%s", stagingConfigPath, pluginType.String(), doryConfigFile)
-		if err := util.CopyFile(configFile, driverPath+pluginType.String()+".json"); err != nil {
+		if err := util.CopyFile(configFile, targetConfigFile); err != nil {
 			return fmt.Errorf("unable to copy the flexvolume config file on the host %s", err.Error())
 		}
 	}

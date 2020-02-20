@@ -21,7 +21,7 @@ func main() {
 	discoveryip := "172.16.234.48"
 	iqn := "iqn.2007-11.com.nimblestorage:createtest0005-v0bb3b16fff385f8a.0000024a.f48beee5"
 	log.Trace("Perform Iscsi Discovery")
-	iscsiTargets, err := linux.PerformDiscovery(discoveryip)
+	iscsiTargets, err := linux.PerformDiscovery([]string{discoveryip})
 	if err == nil {
 		for _, s := range iscsiTargets {
 			log.Trace(s.Name)
@@ -38,13 +38,13 @@ func main() {
 
 	log.Trace("Rescan and Login")
 	volume := &model.Volume{DiscoveryIP: discoveryip, Iqn: iqn, ConnectionMode: "automatic", LunID: "0"}
-	err = linux.RescanAndLoginToTarget(volume)
+	err = linux.HandleIscsiDiscovery(volume)
 	if err != nil {
 		log.Trace(err.Error())
 	}
 
 	log.Trace("Get Nimble Dm Device")
-	listDevices, err := linux.GetNimbleDmDevices(false, "", "")
+	listDevices, err := linux.GetLinuxDmDevices(false, "", "")
 	if err == nil {
 		for _, s := range listDevices {
 			log.Trace("Device", "path:", s.Pathname)
