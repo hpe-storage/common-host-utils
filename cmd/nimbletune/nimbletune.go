@@ -385,7 +385,7 @@ func main() {
 		fmt.Printf("\t%-20s\t%-50s\n", "-sev, -severity", severityDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-json", jsonDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-xml", xmlDescription)
-                fmt.Printf("\t%-20s\t%-50s\n", "-global", globalDescription)
+		fmt.Printf("\t%-20s\t%-50s\n", "-global", globalDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-verbose", verboseDescription)
 		fmt.Printf("\t%-20s\t%-50s\n", "-v, -version", versionDescription)
 		fmt.Println()
