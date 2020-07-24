@@ -44,7 +44,7 @@ func main() {
 	}
 
 	log.Trace("Get Nimble Dm Device")
-	listDevices, err := linux.GetLinuxDmDevices(false, "", "")
+	listDevices, err := linux.GetLinuxDmDevices(false, util.GetVolumeObject("", ""))
 	if err == nil {
 		for _, s := range listDevices {
 			log.Trace("Device", "path:", s.Pathname)

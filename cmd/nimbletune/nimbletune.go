@@ -178,7 +178,7 @@ func displayCustomFormat(format string, complianceStatus string, severity string
 
 func getRecommendationByCategory(category string) (err error) {
 	// Get All nimble devices
-	devices, err := linux.GetLinuxDmDevices(false, "", "")
+	devices, err := linux.GetLinuxDmDevices(false, util.GetVolumeObject("", ""))
 	if err != nil {
 		log.Error("Unable to get linux dm devices ", err.Error())
 		fmt.Print("Error: Unable to get linux dm devices ", err.Error())
