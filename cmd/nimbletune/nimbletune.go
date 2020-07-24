@@ -13,6 +13,7 @@ import (
 	"github.com/hpe-storage/common-host-libs/linux"
 	log "github.com/hpe-storage/common-host-libs/logger"
 	"github.com/hpe-storage/common-host-libs/tunelinux"
+	"github.com/hpe-storage/common-host-libs/util"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
