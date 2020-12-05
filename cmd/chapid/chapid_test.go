@@ -4,9 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/hpe-storage/common-host-libs/chapi"
-	"github.com/hpe-storage/common-host-libs/jconfig"
-	"github.com/hpe-storage/common-host-libs/model"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -14,6 +11,10 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+
+	"github.com/hpe-storage/common-host-libs/chapi"
+	"github.com/hpe-storage/common-host-libs/jconfig"
+	"github.com/hpe-storage/common-host-libs/model"
 )
 
 var (
@@ -266,7 +267,7 @@ func TestDeleteDevice(t *testing.T) {
 		SerialNumber:    config.GetString("serialnumber"),
 		MpathName:       config.GetString("mpathname"),
 		Slaves:          config.GetStringSlice("path"),
-		IscsiTarget:     iscsiTarget,
+		IscsiTargets:    []*model.IscsiTarget{iscsiTarget},
 	}
 
 	deviceReq, err := json.Marshal(deviceToDelete)
