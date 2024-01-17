@@ -1,0 +1,111 @@
+# github.com/akavel/rsrc v0.10.2
+## explicit; go 1.12
+github.com/akavel/rsrc/binutil
+github.com/akavel/rsrc/coff
+github.com/akavel/rsrc/ico
+# github.com/fsnotify/fsnotify v1.7.0
+## explicit; go 1.17
+github.com/fsnotify/fsnotify
+# github.com/go-ole/go-ole v1.3.0
+## explicit; go 1.12
+github.com/go-ole/go-ole
+github.com/go-ole/go-ole/oleutil
+# github.com/google/uuid v1.2.0
+## explicit
+github.com/google/uuid
+# github.com/gorilla/mux v1.8.1
+## explicit; go 1.20
+github.com/gorilla/mux
+# github.com/hectane/go-acl v0.0.0-20230122075934-ca0b05cb1adb
+## explicit; go 1.12
+github.com/hectane/go-acl/api
+# github.com/hpe-storage/common-host-libs v4.7.1+incompatible
+## explicit
+github.com/hpe-storage/common-host-libs/asupparser
+github.com/hpe-storage/common-host-libs/cert
+github.com/hpe-storage/common-host-libs/chapi
+github.com/hpe-storage/common-host-libs/chapi2
+github.com/hpe-storage/common-host-libs/chapi2/cerrors
+github.com/hpe-storage/common-host-libs/chapi2/chapiclient
+github.com/hpe-storage/common-host-libs/chapi2/driver
+github.com/hpe-storage/common-host-libs/chapi2/fc
+github.com/hpe-storage/common-host-libs/chapi2/handler
+github.com/hpe-storage/common-host-libs/chapi2/host
+github.com/hpe-storage/common-host-libs/chapi2/iscsi
+github.com/hpe-storage/common-host-libs/chapi2/model
+github.com/hpe-storage/common-host-libs/chapi2/mount
+github.com/hpe-storage/common-host-libs/chapi2/multipath
+github.com/hpe-storage/common-host-libs/chapi2/virtualdevice
+github.com/hpe-storage/common-host-libs/concurrent
+github.com/hpe-storage/common-host-libs/connectivity
+github.com/hpe-storage/common-host-libs/dockerplugin
+github.com/hpe-storage/common-host-libs/dockerplugin/handler
+github.com/hpe-storage/common-host-libs/dockerplugin/plugin
+github.com/hpe-storage/common-host-libs/dockerplugin/provider
+github.com/hpe-storage/common-host-libs/jconfig
+github.com/hpe-storage/common-host-libs/jsonutil
+github.com/hpe-storage/common-host-libs/linux
+github.com/hpe-storage/common-host-libs/logger
+github.com/hpe-storage/common-host-libs/model
+github.com/hpe-storage/common-host-libs/mpathconfig
+github.com/hpe-storage/common-host-libs/sgio
+github.com/hpe-storage/common-host-libs/stringformat
+github.com/hpe-storage/common-host-libs/tunelinux
+github.com/hpe-storage/common-host-libs/util
+github.com/hpe-storage/common-host-libs/windows
+github.com/hpe-storage/common-host-libs/windows/advapi32
+github.com/hpe-storage/common-host-libs/windows/ioctl
+github.com/hpe-storage/common-host-libs/windows/iscsidsc
+github.com/hpe-storage/common-host-libs/windows/powershell
+github.com/hpe-storage/common-host-libs/windows/shlwapi
+github.com/hpe-storage/common-host-libs/windows/winservice
+github.com/hpe-storage/common-host-libs/windows/wmi
+# github.com/josephspurrier/goversioninfo v1.4.0
+## explicit; go 1.12
+github.com/josephspurrier/goversioninfo
+# github.com/kardianos/service v1.2.2
+## explicit; go 1.12
+github.com/kardianos/service
+# github.com/mitchellh/mapstructure v1.5.0
+## explicit; go 1.14
+github.com/mitchellh/mapstructure
+# github.com/satori/go.uuid v1.2.0
+## explicit
+github.com/satori/go.uuid
+# github.com/sirupsen/logrus v1.9.3
+## explicit; go 1.13
+github.com/sirupsen/logrus
+# github.com/sparrc/go-ping v0.0.0-00010101000000-000000000000 => github.com/go-ping/ping v1.1.0
+## explicit; go 1.14
+github.com/sparrc/go-ping
+# golang.org/x/crypto v0.18.0
+## explicit; go 1.18
+golang.org/x/crypto/ssh/terminal
+# golang.org/x/net v0.17.0
+## explicit; go 1.17
+golang.org/x/net/bpf
+golang.org/x/net/icmp
+golang.org/x/net/internal/iana
+golang.org/x/net/internal/socket
+golang.org/x/net/ipv4
+golang.org/x/net/ipv6
+# golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+## explicit
+golang.org/x/sync/errgroup
+# golang.org/x/sys v0.16.0
+## explicit; go 1.18
+golang.org/x/sys/plan9
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+golang.org/x/sys/windows/registry
+golang.org/x/sys/windows/svc
+golang.org/x/sys/windows/svc/debug
+golang.org/x/sys/windows/svc/eventlog
+golang.org/x/sys/windows/svc/mgr
+# golang.org/x/term v0.16.0
+## explicit; go 1.18
+golang.org/x/term
+# gopkg.in/natefinch/lumberjack.v2 v2.2.1
+## explicit; go 1.13
+gopkg.in/natefinch/lumberjack.v2
+# github.com/sparrc/go-ping => github.com/go-ping/ping v1.1.0
