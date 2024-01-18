@@ -1,11 +1,9 @@
-module common-host-utils
+module github.com/hpe-storage/common-host-utils
 
 go 1.19
 
-replace github.com/sparrc/go-ping => github.com/go-ping/ping v1.1.0
-
 require (
-	github.com/hpe-storage/common-host-libs v4.7.1+incompatible
+	github.com/hpe-storage/common-host-libs v0.0.0-20240118164757-65eb0171b2ca
 	github.com/josephspurrier/goversioninfo v1.4.0
 	github.com/kardianos/service v1.2.2
 	golang.org/x/crypto v0.18.0
@@ -19,12 +17,15 @@ require (
 	github.com/google/uuid v1.2.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/hectane/go-acl v0.0.0-20230122075934-ca0b05cb1adb // indirect
+	github.com/kr/pretty v0.3.1 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
-	github.com/sparrc/go-ping v0.0.0-00010101000000-000000000000 // indirect
+	github.com/sparrc/go-ping v0.0.0-20190613174326-4e5b6552494c // indirect
 	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
 	golang.org/x/term v0.16.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 )
+
+replace github.com/sparrc/go-ping => github.com/go-ping/ping v1.1.0
